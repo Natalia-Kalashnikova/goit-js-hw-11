@@ -121,7 +121,7 @@ body {
 }
 
 .sl-wrapper {
-  background-color: #f6f6fe;
+  background-color: rgba(246, 246, 254, 0.5);
 }
 
 .simple-lightbox > button.sl-close,
