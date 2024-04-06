@@ -15,32 +15,35 @@ searchForm.addEventListener('submit', handlerSearch);
 function handlerSearch(event) {
     event.preventDefault();
     galleryList.innerHTML = '';
+    
     loader.classList.remove('is-hidden');
 
     const inputSearchValue = input.value.trim();
 
     if (inputSearchValue === '') {
-        errorMassage(`Please fill out the input field!`);
-        event.currentTarget.reset();
+        errorMessage(`Please fill out the input field!`);
+        searchForm.reset();
+
         loader.classList.add('is-hidden');
+
         return;            
     }
 
     fetchImages(inputSearchValue)
         .then(data => {            
             if (data.hits.length === 0) {
-                errorMassage(`Sorry, there are no images matching your search query. Please try again!`);
-                loader.classList.add('is-hidden');
+                errorMessage(`Sorry, there are no images matching your search query. Please try again!`);
                 return;
             }
-            getGallery(galleryList, data.hits);
-            loader.classList.add('is-hidden');
+            getGallery(galleryList, data.hits);            
         })
         .catch(error => console.log(error))
         .finally(() => {
+
+            loader.classList.add('is-hidden');
+
             searchForm.reset(); 
         });
-    event.currentTarget.reset();
 }
 
 const iziToastParam = {
@@ -53,12 +56,10 @@ const iziToastParam = {
     pauseOnHover: false, 
 }
 
-function errorMassage(massage) {
+function errorMessage(message) {
     iziToast.error({
         ...iziToastParam,
-        message: `${massage}`,
+        message: `${message}`,
     })
 }
-
-
 
